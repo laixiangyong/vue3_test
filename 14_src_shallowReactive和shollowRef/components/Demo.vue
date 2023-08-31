@@ -1,6 +1,6 @@
 <template>
-	<h4>当前求和为:{{sum}}</h4>
-	<button @click="sum++">点我sum+1</button>
+	<h4>当前的y值是:{{x.y}}</h4>
+	<button @click="x.y++">点我y+1</button>
 	<hr>
 	<h2>姓名：{{name}}</h2>
 	<h2>年龄：{{age}}</h2>
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-	import {reactive,toRefs, ref,readonly,shallowReadonly} from 'vue'
+	import {reactive,toRef,toRefs,shallowReactive,shallowRef, ref} from 'vue'
 	export default {
 		name: 'Demo',
 		setup(){
 			//数据
-			let sum = ref(0)
+			// let person = shallowReactive({//只考虑第一层数据的响应式
 			let person = reactive({
 				name:'张三',
 				age:18,
@@ -26,14 +26,14 @@
 					}
 				}
 			})
-			// person = readonly(person)//person的所有属性只能读
-			// person = shallowReadonly(person)//person浅层次的属性只能读，深层次的依旧可改，如salary
-			// sum = readonly(sum)
-			// sum = shallowReadonly(sum)
-
+			// shallowRef只处理基本数据类型响应式，不处理对象
+			let x = shallowRef({
+				y:0
+			})
 			//返回一个对象（常用）
 			return {
-				sum,
+				x,
+                person,
                 ...toRefs(person)
 			}
 		}

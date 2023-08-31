@@ -1,7 +1,4 @@
 <template>
-	<h4>当前求和为:{{sum}}</h4>
-	<button @click="sum++">点我sum+1</button>
-	<hr>
 	<h2>姓名：{{name}}</h2>
 	<h2>年龄：{{age}}</h2>
 	<h2>薪资：{{job.jl.salary}}K</h2>
@@ -11,12 +8,11 @@
 </template>
 
 <script>
-	import {reactive,toRefs, ref,readonly,shallowReadonly} from 'vue'
+	import {reactive,toRef,toRefs} from 'vue'
 	export default {
 		name: 'Demo',
 		setup(){
 			//数据
-			let sum = ref(0)
 			let person = reactive({
 				name:'张三',
 				age:18,
@@ -26,14 +22,14 @@
 					}
 				}
 			})
-			// person = readonly(person)//person的所有属性只能读
-			// person = shallowReadonly(person)//person浅层次的属性只能读，深层次的依旧可改，如salary
-			// sum = readonly(sum)
-			// sum = shallowReadonly(sum)
 
 			//返回一个对象（常用）
 			return {
-				sum,
+                //使用toRef让数据具有响应式，可以将数据拆散交出去
+				/* name:toRef(person,'name'),
+				age:toRef(person,'age'),
+				salary:toRef(person.job.jl,'salary') */
+
                 ...toRefs(person)
 			}
 		}
